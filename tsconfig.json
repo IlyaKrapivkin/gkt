@@ -1,15 +1,21 @@
 {
-   "compilerOptions": {
-      "lib": [
-         "es5",
-         "es6"
-      ],
-      "target": "es6",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "outDir": "./build",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "sourceMap": true
-   }
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitReturns": true,
+    "allowJs": true,
+    "declaration": false,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "rootDir": "src",
+    "outDir": "./dist",
+    "types": ["node"],
+  },
+  "exclude": ["node_modules","scripts"]
 }
