@@ -1,1 +1,1 @@
-# gkt1
+# GKT by Ilya

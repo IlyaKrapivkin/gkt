@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "es2020",
     "module": "commonjs",
+    "lib": ["es2020", "esnext.asynciterable"],
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "sourceMap": false,
     "allowSyntheticDefaultImports": true,
     "noImplicitReturns": true,
