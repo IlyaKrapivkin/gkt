@@ -1,12 +1,19 @@
 import { Arg, Mutation, Resolver } from 'type-graphql'
+import { User } from '../entity/User'
 
 @Resolver()
 export class M_Movie {
   @Mutation(()=> Boolean)
-  createMovie(
-    @Arg('title') title: string
+  async createMovie(
+    @Arg('firstName') firstName: string,
+    @Arg('lastName') lastName: string,
+    @Arg('age') age: number
   ) {
-    console.log(title)
+    await User.insert({
+      firstName,
+      lastName,
+      age
+    })
     return true
   }
 }

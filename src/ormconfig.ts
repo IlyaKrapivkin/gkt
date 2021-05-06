@@ -4,8 +4,8 @@ import { ConnectionOptions } from 'typeorm'
 export default function getConfig(): ConnectionOptions {
   dotenv.config()
   const ormconfig: ConnectionOptions = {
-    name: "default",
-    type: "postgres",
+    name: 'default',
+    type: 'postgres',
     host: process.env.DBH_HOST,
     database: process.env.DBH_DB,
     port: +process.env.DBH_PORT,
@@ -17,13 +17,13 @@ export default function getConfig(): ConnectionOptions {
       require: true,
       rejectUnauthorized: false
     },
-    entities: ["src/entity/**/*.ts"],
-    migrations: ["src/migration/**/*.ts"],
-    subscribers: ["src/subscriber/**/*.ts"],
+    entities: ['src/entity/**/*.ts'],
+    migrations: ['src/migration/**/*.ts'],
+    subscribers: ['src/subscriber/**/*.ts'],
     cli: {
-      entitiesDir: "src/entity",
-      migrationsDir: "src/migration",
-      subscribersDir: "src/subscriber"
+      entitiesDir: 'src/entity',
+      migrationsDir: 'src/migration',
+      subscribersDir: 'src/subscriber'
     }
   }
   return ormconfig

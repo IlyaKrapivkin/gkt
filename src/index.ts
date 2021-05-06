@@ -18,8 +18,8 @@ async function main() {
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [
-        Q_Ping,
-        M_Movie
+        M_Movie,
+        Q_Ping
       ]
     }),
     context: ({ req, res}) => ({ req, res})
