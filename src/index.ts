@@ -6,7 +6,6 @@ import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
 import getConfig from './ormconfig'
 import { Q_Ping } from './resolvers/Q_Ping'
-import { M_Movie } from './resolvers/M_Movie'
 
 async function main() {
   dotenv.config()
@@ -19,7 +18,6 @@ async function main() {
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [
-        M_Movie,
         Q_Ping
       ]
     }),
