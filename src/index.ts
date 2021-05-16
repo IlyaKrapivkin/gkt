@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'
 import 'reflect-metadata'
 import { createConnection, ConnectionOptions } from 'typeorm'
 import express from 'express'
@@ -8,12 +9,12 @@ import { Q_Ping } from './resolvers/Q_Ping'
 import { M_Movie } from './resolvers/M_Movie'
 
 async function main() {
+  dotenv.config()
   // db connection
   const ormconfig = getConfig()
   await createConnection(ormconfig)
   console.log('📚 db connected')
-  // express initialization
-  const port: number = 3000
+  // express and graphql initialization
   const app = express()
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
@@ -25,6 +26,7 @@ async function main() {
     context: ({ req, res}) => ({ req, res})
   })
   apolloServer.applyMiddleware({ app, path: '/graphql' })
+  const port: number = +process.env.EXPRESS_PORT
   app.listen(port)
   console.log('🚀 server started')
 }
