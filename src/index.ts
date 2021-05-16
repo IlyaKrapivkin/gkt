@@ -13,7 +13,7 @@ async function main() {
   // db connection
   const ormconfig = getConfig()
   await createConnection(ormconfig)
-  console.log('📚 db connected')
+  console.log(`📚 db connected`)
   // express and graphql initialization
   const app = express()
   const apolloServer = new ApolloServer({
@@ -28,8 +28,8 @@ async function main() {
     playground: true
   })
   apolloServer.applyMiddleware({ app, path: '/graphql' })
-  const port: number = +process.env.EXPRESS_PORT
+  const port: number = +process.env.EXPRESS_PORT || +process.env.PORT
   app.listen(port)
-  console.log('🚀 server started')
+  console.log(`🚀 server started on port [${port}]`)
 }
 main()
