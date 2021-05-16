@@ -28,7 +28,7 @@ async function main() {
     playground: true
   })
   apolloServer.applyMiddleware({ app, path: '/graphql' })
-  const port: number = +process.env.EXPRESS_PORT || +process.env.PORT
+  const port: number = +process.env.PORT || +process.env.EXPRESS_PORT
   app.listen(port)
   console.log(`🚀 server started on port [${port}]`)
 }
