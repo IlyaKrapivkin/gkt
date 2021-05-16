@@ -23,7 +23,9 @@ async function main() {
         Q_Ping
       ]
     }),
-    context: ({ req, res}) => ({ req, res})
+    context: ({ req, res}) => ({ req, res}),
+    introspection: true,
+    playground: true
   })
   apolloServer.applyMiddleware({ app, path: '/graphql' })
   const port: number = +process.env.EXPRESS_PORT
@@ -31,5 +33,3 @@ async function main() {
   console.log('🚀 server started')
 }
 main()
-
-
