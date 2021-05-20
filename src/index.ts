@@ -3,8 +3,9 @@ import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
-import getOrmConfig from './ormconfig'
-import getSchema from './schema'
+import { buildSchema } from 'type-graphql'
+
+import getOrmConfig from './config/ormconfig'
 
 async function main() {
   dotenv.config()
@@ -15,7 +16,9 @@ async function main() {
   // express and graphql initialization
   const app = express()
   const apolloServer = new ApolloServer({
-    schema: await getSchema(),
+    schema: await buildSchema({
+      resolvers: [__dirname + "/resolvers/**/*.{ts,js}"]
+    }),
     context: ({ req, res}) => ({ req, res}),
     introspection: true,
     playground: true
