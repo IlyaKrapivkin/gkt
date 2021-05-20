@@ -17,7 +17,7 @@ async function main() {
   const app = express()
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [__dirname + "/resolvers/**/*.{ts,js}"]
+      resolvers: [__dirname + '/resolver/**/*.{ts,js}']
     }),
     context: ({ req, res}) => ({ req, res}),
     introspection: true,

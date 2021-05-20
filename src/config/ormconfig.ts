@@ -11,7 +11,7 @@ export default function getOrmConfig(): ConnectionOptions {
     port: +process.env.DBH_PORT,
     username: process.env.DBH_USERNAME,
     password: process.env.DBH_PASSWORD,
-    synchronize: true,
+    synchronize: false,
     logging: false,
     ssl: {
       require: true,
