@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { ConnectionOptions } from 'typeorm'
 
-export default function getConfig(): ConnectionOptions {
+export default function getOrmConfig(): ConnectionOptions {
   dotenv.config()
   const ormconfig: ConnectionOptions = {
     name: 'default',

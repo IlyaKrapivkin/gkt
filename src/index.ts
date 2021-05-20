@@ -1,26 +1,21 @@
 import dotenv from 'dotenv'
 import 'reflect-metadata'
-import { createConnection, ConnectionOptions } from 'typeorm'
+import { createConnection } from 'typeorm'
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
-import { buildSchema } from 'type-graphql'
-import getConfig from './ormconfig'
-import { Q_Ping } from './resolvers/Q_Ping'
+import getOrmConfig from './ormconfig'
+import getSchema from './schema'
 
 async function main() {
   dotenv.config()
   // db connection
-  const ormconfig = getConfig()
+  const ormconfig = getOrmConfig()
   await createConnection(ormconfig)
   console.log(`📚 db connected`)
   // express and graphql initialization
   const app = express()
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [
-        Q_Ping
-      ]
-    }),
+    schema: await getSchema(),
     context: ({ req, res}) => ({ req, res}),
     introspection: true,
     playground: true
@@ -30,4 +25,5 @@ async function main() {
   app.listen(port)
   console.log(`🚀 server started on port [${port}]`)
 }
+
 main()
