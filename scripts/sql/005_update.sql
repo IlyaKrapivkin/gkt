@@ -1,0 +1,2 @@
+ALTER TABLE public.person
+ALTER COLUMN hash DROP NOT NULL;

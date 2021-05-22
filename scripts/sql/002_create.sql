@@ -16,7 +16,8 @@ CREATE TABLE public.person (
   delete_date timestamptz NULL,
   login varchar(64) NOT NULL,
   reserve varchar(64) NULL,
-  hash varchar(256) NOT NULL,
+  -- hash varchar(256) NOT NULL,
+  hash varchar(256) NULL,
   valid BOOLEAN NOT NULL DEFAULT FALSE,
   CONSTRAINT person_pkey PRIMARY KEY (id),
   CONSTRAINT person_fkey_role FOREIGN KEY (role_id) REFERENCES public.role(id)
@@ -31,7 +32,7 @@ CREATE TABLE public.code (
   accept_date timestamptz NULL,
   code varchar(8) NOT NULL,
   hit smallint NOT NULL DEFAULT 0,
-  reserve varchar(64) NULL,
+  -- reserve varchar(64) NULL,
   CONSTRAINT code_pkey PRIMARY KEY (id),
   CONSTRAINT code_fkey_person FOREIGN KEY (person_id) REFERENCES public.person(id)
 );
