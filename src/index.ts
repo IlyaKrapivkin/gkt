@@ -8,11 +8,14 @@ import { buildSchema } from 'type-graphql'
 import getOrmConfig from './config/ormconfig'
 
 async function main() {
+  // crypt
   dotenv.config()
+
   // db connection
   const ormconfig = getOrmConfig()
   await createConnection(ormconfig)
   console.log(`📚 db connected`)
+
   // express and graphql initialization
   const app = express()
   const apolloServer = new ApolloServer({
@@ -25,6 +28,8 @@ async function main() {
   })
   apolloServer.applyMiddleware({ app, path: '/graphql' })
   const port: number = +process.env.PORT || +process.env.EXPRESS_PORT
+
+  // start
   app.listen(port)
   console.log(`🚀 server started on port [${port}]`)
 }

@@ -11,7 +11,7 @@ import E_Person from './E_Person'
 
 @Entity({
   schema: 'public',
-  name: 'code'
+  name: 'code',
 })
 export default class E_Code {
   @PrimaryGeneratedColumn()
@@ -19,27 +19,27 @@ export default class E_Code {
 
   @Column({
     type: 'integer',
-    name: 'person_id'
+    name: 'person_id',
   })
   personId: number;
 
   @Column({
     type: 'timestamptz',
     name: 'create_date',
-    default: () => 'CURRENT_TIMESTAMP'
+    default: () => 'CURRENT_TIMESTAMP',
   })
   createDate: Date;
 
   @Column({
     type: 'timestamptz',
     name: 'update_date',
-    default: () => 'CURRENT_TIMESTAMP'
+    default: () => 'CURRENT_TIMESTAMP',
   })
   updateDate: Date;
 
   @Column({
     type: 'timestamptz',
-    name: 'expire_date'
+    name: 'expire_date',
   })
   expireDate: Date;
 
@@ -52,20 +52,20 @@ export default class E_Code {
 
   @Column({
     type: 'varchar',
-    length: 8
+    length: 8,
   })
   code: string;
 
   @Column({
     type: 'smallint',
-    default: () => '0'
+    default: () => '0',
   })
   hit: string;
 
   @ManyToOne(() => E_Person, person => person.codes)
   @JoinColumn({
     name: 'person_id',
-    referencedColumnName: 'id'
+    referencedColumnName: 'id',
   })
   person: E_Person;
 }

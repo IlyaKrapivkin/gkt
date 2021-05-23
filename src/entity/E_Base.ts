@@ -10,21 +10,21 @@ export default abstract class E_Base {
   @Column({
     type: 'timestamptz',
     name: 'create_date',
-    default: () => 'CURRENT_TIMESTAMP'
+    default: () => 'CURRENT_TIMESTAMP',
   })
   createDate: Date;
 
   @Column({
     type: 'timestamptz',
     name: 'update_date',
-    default: () => 'CURRENT_TIMESTAMP'
+    default: () => 'CURRENT_TIMESTAMP',
   })
   updateDate: Date;
 
   @Column({
     type: 'timestamptz',
     name: 'delete_date',
-    nullable: true
+    nullable: true,
   })
-  deleteDate: Date;
+  deleteDate: Date | null;
 }

@@ -12,22 +12,25 @@ import E_Person from './E_Person'
 
 @Entity({
   schema: 'public',
-  name: 'role',
+  name: 'session',
 })
 export default class E_Role extends E_Base {
   @Column({
-    type: 'varchar',
-    length: 16,
+    type: 'integer',
+    name: 'person_id',
   })
-  name: string;
+  personId: number;
 
   @Column({
     type: 'varchar',
-    length: 256,
-    nullable: true,
+    length: 128,
   })
-  about: string | null;
+  token: string;
 
-  @OneToMany(() => E_Person, person => person.role)
-  persons: E_Person[];
+  @ManyToOne(() => E_Person, person => person.sessions)
+  @JoinColumn({
+    name: 'person_id',
+    referencedColumnName: 'id',
+  })
+  person: E_Person;
 }
