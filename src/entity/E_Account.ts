@@ -14,6 +14,10 @@ import E_Color from './E_Color'
 import E_Category from './E_Category'
 import E_AccountSetup from './E_AccountSetup'
 import E_Group from './E_Group'
+import E_Transfer from './E_Transfer'
+import E_Exchange from './E_Exchange'
+import E_Minus from './E_Minus'
+import E_Plus from './E_Plus'
 
 @Entity({
   schema: 'public',
@@ -32,7 +36,7 @@ export default class E_Account extends E_Base {
     nullable: true,
   })
   alias: string | null;
-
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   @ManyToOne(() => E_Person, person => person.accounts)
   @JoinColumn({
     name: 'person_id',
@@ -54,4 +58,16 @@ export default class E_Account extends E_Base {
 
   @OneToMany(() => E_Group, group => group.account)
   groups: E_Group[];
+
+  @OneToMany(() => E_Transfer, transfer => transfer.account)
+  transfers: E_Transfer[];
+
+  @OneToMany(() => E_Exchange, exchange => exchange.account)
+  exchanges: E_Exchange[];
+
+  @OneToMany(() => E_Minus, minus => minus.account)
+  minuses: E_Minus[];
+
+  @OneToMany(() => E_Plus, plus => plus.account)
+  pluses: E_Plus[];
 }

@@ -29,7 +29,7 @@ export default class E_AccountSetup extends E_Base {
     name: 'preset_id',
   })
   presetId: number;
-
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   @ManyToOne(() => E_Account, account => account.accountSetups, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',

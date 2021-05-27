@@ -49,7 +49,7 @@ export default class E_Person extends E_Base {
     default: () => 'FALSE',
   })
   valid: boolean;
-
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   @ManyToOne(() => E_Role, role => role.persons)
   @JoinColumn({
     name: 'role_id',

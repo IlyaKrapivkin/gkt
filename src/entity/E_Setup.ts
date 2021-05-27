@@ -21,7 +21,7 @@ export default class E_Setup extends E_Base {
     unique: true,
   })
   key: string;
-
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   @OneToMany(() => E_Preset, preset => preset.setup)
   presets: E_Preset[];
 }

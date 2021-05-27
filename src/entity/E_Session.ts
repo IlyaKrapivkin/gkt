@@ -26,7 +26,7 @@ export default class E_Role extends E_Base {
     length: 128,
   })
   token: string;
-
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   @ManyToOne(() => E_Person, person => person.sessions)
   @JoinColumn({
     name: 'person_id',

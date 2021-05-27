@@ -27,7 +27,7 @@ export default class E_Role extends E_Base {
     nullable: true,
   })
   about: string | null;
-
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   @OneToMany(() => E_Person, person => person.role)
   persons: E_Person[];
 }

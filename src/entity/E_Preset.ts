@@ -27,7 +27,7 @@ export default class E_Preset extends E_Base {
     length: 256,
   })
   value: string;
-
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   @ManyToOne(() => E_Setup, setup => setup.presets)
   @JoinColumn({
     name: 'setup_id',

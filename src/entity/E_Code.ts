@@ -61,7 +61,7 @@ export default class E_Code {
     default: () => '0',
   })
   hit: string;
-
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   @ManyToOne(() => E_Person, person => person.codes)
   @JoinColumn({
     name: 'person_id',

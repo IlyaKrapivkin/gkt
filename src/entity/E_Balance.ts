@@ -11,33 +11,42 @@ import E_Base from './E_Base'
 import E_Setup from './E_Setup'
 import E_Account from './E_Account'
 import E_Currency from './E_Currency'
-import E_Category from './E_Category'
+import E_Color from './E_Color'
 import E_AccountSetup from './E_AccountSetup'
+import E_Category from './E_Category'
+import E_Wallet from './E_Wallet'
+import E_Group from './E_Group'
 
 @Entity({
   schema: 'public',
-  name: 'color',
+  name: 'balance',
 })
-export default class E_Color extends E_Base {
+export default class E_Balance extends E_Base {
   @Column({
     type: 'integer',
-    name: 'account_id',
+    name: 'wallet_id',
   })
-  accountId: number;
+  walletId: number;
 
   @Column({
-    type: 'varchar',
-    length: 256,
+    type: 'integer'
   })
-  sign: string;
+  amount: number;
+
+  @Column({
+    type: 'integer'
+  })
+  income: number;
+
+  @Column({
+    type: 'integer'
+  })
+  expense: number;
   // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  @ManyToOne(() => E_Account, account => account.colors)
+  @ManyToOne(() => E_Wallet, wallet => wallet.balances)
   @JoinColumn({
-    name: 'account_id',
+    name: 'wallet_id',
     referencedColumnName: 'id'
   })
-  account: E_Account;
-
-  @OneToMany(() => E_Category, category => category.color)
-  categories: E_Category[];
+  wallet: E_Wallet;
 }
