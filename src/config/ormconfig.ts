@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { ConnectionOptions } from 'typeorm'
 
-export default function getConfig(): ConnectionOptions {
+export default function getOrmConfig(): ConnectionOptions {
   dotenv.config()
   const ormconfig: ConnectionOptions = {
     name: 'default',
@@ -11,7 +11,7 @@ export default function getConfig(): ConnectionOptions {
     port: +process.env.DBH_PORT,
     username: process.env.DBH_USERNAME,
     password: process.env.DBH_PASSWORD,
-    synchronize: true,
+    synchronize: false,
     logging: false,
     ssl: {
       rejectUnauthorized: false
