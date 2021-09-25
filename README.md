@@ -1,3 +1,3 @@
-# GKT by Ilya
-# server side is on heroku
-some text test
+yarn install
+create .env file with variables
+yarn start

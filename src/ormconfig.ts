@@ -14,7 +14,6 @@ export default function getConfig(): ConnectionOptions {
     synchronize: true,
     logging: false,
     ssl: {
-      require: true,
       rejectUnauthorized: false
     },
     entities: ['src/entity/**/*.ts'],
