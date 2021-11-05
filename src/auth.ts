@@ -1,7 +1,12 @@
 import { AuthChecker } from 'type-graphql'
+import { IncomingHttpHeaders } from 'http'
 import { getConnection } from 'typeorm'
 import { Request } from 'express'
 import crypto from 'crypto'
+
+export interface Context extends IncomingHttpHeaders {
+  token?: string
+}
 
 const tokenGen = () => {
   const value = `${new Date().valueOf()}${Math.random()}`
@@ -34,36 +39,13 @@ const hashCheck = (
   return false
 }
 
-export const authChecker: AuthChecker<Request> = async (
-  {
-    // root,
-    // args,
-    context,
-    // info,
-  },
+export const authChecker: AuthChecker<Context> = async (
+  { root, args, context, info },
   roles,
 ) => {
   try {
-    console.log(context)
-    let reqToken: string | null = null
-    if (context.headers.token) {
-      if (Array.isArray(context.headers.token)) {
-        reqToken = context.headers.token?.[0]
-      } else {
-        reqToken = context.headers.token
-      }
-    }
-    if (!reqToken) {
-      return false
-    }
-    const sql_getTokenAlive = `select * from public.session where token = $1`
-    const tokenTab: {
-      account_id: number,
-    }[] = await getConnection().query(
-      sql_getTokenAlive,
-      [reqToken],
-    )
-    return !!(tokenTab && tokenTab.length)
+    console.log('context', context)
+    return !!context.token
   } catch (cerror) {
     return false
   }

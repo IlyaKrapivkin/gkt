@@ -6,9 +6,10 @@ import {
 } from 'type-graphql'
 
 @Resolver()
-export default class Q_Ping {
+export default class Q_T2 {
+  @Authorized()
   @Query(() => String)
-  ping() {
-    return 'pong'
+  test2() {
+    throw new Error('wanna error')
   }
 }

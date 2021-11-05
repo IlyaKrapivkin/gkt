@@ -23,12 +23,14 @@ async function main() {
   const schema = await buildSchema({
     resolvers: [__dirname + '/resolver/**/*.{ts,js}'],
     authChecker,
+    // authMode: 'null',
     authMode: 'error',
   })
   const apolloServer = new ApolloServer({
     schema,
     // context: ({ req, res}) => ({ req, res}),
-    context: ({ req }) => ({ headers: req.headers }),
+    // context: ({ req }) => ({ headers: req.headers }),
+    context: ({ req }) => ({ ...req.headers }),
     introspection: true,
     playground: true,
   })
