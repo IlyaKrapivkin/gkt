@@ -44,9 +44,9 @@ export const authChecker: AuthChecker<Context> = async (
   roles,
 ) => {
   try {
-    console.log('context', context)
+    // console.log('context', context)
     return !!context.token
-  } catch (cerror) {
+  } catch (catErr) {
     return false
   }
 }

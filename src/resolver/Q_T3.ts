@@ -6,10 +6,12 @@ import {
 } from 'type-graphql'
 
 @Resolver()
-export default class Q_T2 {
+export default class Q_T3 {
   @Authorized()
   @Query(() => String)
-  test2() {
-    throw new Error('throw error')
+  test3() {
+    const abc = undefined
+    const cba = abc.def
+    return 'code error'
   }
 }
