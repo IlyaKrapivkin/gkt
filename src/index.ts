@@ -5,6 +5,7 @@ import { createConnection } from 'typeorm'
 import { ApolloServer } from 'apollo-server-express'
 import { GraphQLResponse } from 'apollo-server-types'
 import { buildSchema } from 'type-graphql'
+import { GraphQLError } from 'graphql'
 
 import getOrmConfig from './config/ormconfig'
 import { authChecker } from './auth'
@@ -24,7 +25,7 @@ const LogPlugin = {
         console.log(context.response)
         const responseReplaced: GraphQLResponse = {
           data: context.response.data || null,
-          errors: context.response.errors || [],
+          errors: context.response.errors || null,
         }
         context.response = responseReplaced
       }
@@ -54,7 +55,20 @@ async function main() {
     context: ({ req }) => ({ ...req.headers }),
     introspection: true,
     playground: true,
-    formatError: (err) => err,
+    formatError: (err) => {
+      const errorReplaced: GraphQLError = {
+        message: err.message,
+        nodes: undefined,
+        source: undefined,
+        positions: undefined,
+        path: undefined,
+        originalError: undefined,
+        extensions: undefined,
+        locations: undefined,
+        name: undefined,
+      }
+      return errorReplaced
+    },
     formatResponse: (res, ctx) => res,
     plugins: [
       LogPlugin,
