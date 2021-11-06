@@ -12,20 +12,17 @@ import { authChecker } from './auth'
 
 const LogPlugin = {
   requestDidStart(requestContext) {
-    console.log('1️⃣')
     return {
       didResolveOperation (context) {
-        console.log('2️⃣')
       },
       didEncounterErrors (context) {
-        console.log('3️⃣')
+        console.log('🕷️')
       },
       willSendResponse (context) {
-        console.log('4️⃣')
         console.log(context.response)
         const responseReplaced: GraphQLResponse = {
           data: context.response.data || null,
-          errors: context.response.errors || null,
+          errors: context.response.errors || [],
         }
         context.response = responseReplaced
       }
