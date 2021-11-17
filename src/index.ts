@@ -11,14 +11,14 @@ import getOrmConfig from './config/ormconfig'
 import { authChecker } from './auth'
 
 const LogPlugin = {
-  requestDidStart(requestContext) {
+  async requestDidStart(requestContext) {
     return {
-      didResolveOperation (context) {
+      async didResolveOperation (context) {
       },
-      didEncounterErrors (context) {
+      async didEncounterErrors (context) {
         console.log('🕷️')
       },
-      willSendResponse (context) {
+      async willSendResponse (context) {
         console.log(context.response)
         const responseReplaced: GraphQLResponse = {
           data: context.response.data || null,
@@ -51,7 +51,6 @@ async function main() {
     schema,
     context: ({ req }) => ({ ...req.headers }),
     introspection: true,
-    playground: true,
     formatError: (err) => {
       const errorReplaced: GraphQLError = {
         message: err.message,
@@ -71,6 +70,7 @@ async function main() {
       LogPlugin,
     ]
   })
+  await  apolloServer.start()
   apolloServer.applyMiddleware({ app, path: '/graphql' })
 
   // start
