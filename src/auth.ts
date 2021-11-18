@@ -1,19 +1,24 @@
 import { AuthChecker } from 'type-graphql'
-import { IncomingHttpHeaders } from 'http'
 import { getConnection } from 'typeorm'
-import { Request } from 'express'
 import crypto from 'crypto'
 
-export interface Context extends IncomingHttpHeaders {
-  token?: string
+import {
+  CustomContext,
+  USER_ROLE,
+} from './types'
+import { userAlive as sql_userAlive } from './script/sql/userAlive'
+import { userAliveByRole as sql_userAliveByRole } from './script/sql/userAliveByRole'
+
+export const uidGen = () => {
+  return crypto.randomUUID()
 }
 
-const tokenGen = () => {
+export const tokenGen = () => {
   const value = `${new Date().valueOf()}${Math.random()}`
   return crypto.createHash('sha1').update(value, 'utf8').digest('hex')
 }
 
-const hashGen = (
+export const hashGen = (
   login: string,
   password: string,
 ) => {
@@ -24,7 +29,7 @@ const hashGen = (
   return null
 }
 
-const hashCheck = (
+export const hashCheck = (
   hash: string,
   login: string,
   password: string,
@@ -39,13 +44,46 @@ const hashCheck = (
   return false
 }
 
-export const authChecker: AuthChecker<Context> = async (
+export const customAuthChecker: AuthChecker<CustomContext> = async (
   { root, args, context, info },
-  roles,
+  roles: string[],
 ) => {
   try {
-    // console.log('context', context)
-    return !!context.token
+    // GUEST
+    if (roles.includes(USER_ROLE.guest)) {
+      return !context.token
+    }
+    // USER
+    if (
+      context.token &&
+      roles.includes(USER_ROLE.user)
+    ) {
+      const sessionTable: {
+        id: number,
+      }[] = await getConnection().query(
+        sql_userAlive,
+        [context.token],
+      )
+      return !!sessionTable.length
+    }
+    // ADMIN
+    if (
+      context.token &&
+      roles.includes(USER_ROLE.admin)
+    ) {
+      const sessionTable: {
+        id: number,
+      }[] = await getConnection().query(
+        sql_userAliveByRole,
+        [
+          context.token,
+          USER_ROLE.admin,
+        ],
+      )
+      return !!sessionTable.length
+    }
+    // default
+    return false
   } catch (catErr) {
     return false
   }

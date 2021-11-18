@@ -7,10 +7,14 @@ import { GraphQLResponse } from 'apollo-server-types'
 import { buildSchema } from 'type-graphql'
 import { GraphQLError } from 'graphql'
 
+import {
+  customAuthChecker,
+  uidGen,
+} from './auth'
 import getOrmConfig from './config/ormconfig'
-import { authChecker } from './auth'
+import { CustomContext } from './types'
 
-const LogPlugin = {
+const actionLifePlugin = {
   async requestDidStart(requestContext) {
     return {
       async didResolveOperation (context) {
@@ -19,7 +23,6 @@ const LogPlugin = {
         console.log('🕷️')
       },
       async willSendResponse (context) {
-        console.log(context.response)
         const responseReplaced: GraphQLResponse = {
           data: context.response.data || null,
           errors: context.response.errors || [],
@@ -44,14 +47,26 @@ async function main() {
   const app = express()
   const schema = await buildSchema({
     resolvers: [__dirname + '/resolver/**/*.{ts,js}'],
-    authChecker,
+    authChecker: customAuthChecker,
     authMode: 'error',
   })
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }) => ({ ...req.headers }),
+    context: ({ req }) => {
+      const tokenRaw = req?.headers?.token || null
+      const tokenStr = (
+        tokenRaw &&
+        typeof tokenRaw === 'string'
+      ) ? tokenRaw : null
+      const context: CustomContext = {
+        token: tokenStr,
+        uid: uidGen(),
+      }
+      return context
+    },
     introspection: true,
     formatError: (err) => {
+      console.error(err)
       const errorReplaced: GraphQLError = {
         message: err.message,
         nodes: undefined,
@@ -65,9 +80,9 @@ async function main() {
       }
       return errorReplaced
     },
-    formatResponse: (res, ctx) => res,
+    formatResponse: (res) => (res),
     plugins: [
-      LogPlugin,
+      actionLifePlugin,
     ]
   })
   await  apolloServer.start()
