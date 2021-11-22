@@ -3,6 +3,7 @@ import {
   Query,
   Mutation,
   Authorized,
+  Arg,
 } from 'type-graphql'
 import { USER_ROLE } from '../types'
 
@@ -12,7 +13,11 @@ export default class Auth {
     USER_ROLE.guest,
   ])
   @Mutation(() => String)
-  async signUp(): Promise<string> {
+  async signUp(
+    @Arg('roleId') roleId: number,
+    @Arg('login') login: string,
+    @Arg('loginReserve', { nullable: true }) loginReserve?: string,
+  ): Promise<string> {
     // TODO
     return 'default ok'
   }
