@@ -7,12 +7,10 @@ import { GraphQLResponse } from 'apollo-server-types'
 import { buildSchema } from 'type-graphql'
 import { GraphQLError } from 'graphql'
 
-import {
-  customAuthChecker,
-  uidGen,
-} from './auth'
+import { customAuthChecker } from './auth'
 import getOrmConfig from './config/ormconfig'
 import { CustomContext } from './types'
+import { UuidGen } from './utility/Crypt'
 
 const actionLifePlugin = {
   async requestDidStart(requestContext) {
@@ -60,7 +58,7 @@ async function main() {
       ) ? tokenRaw : null
       const context: CustomContext = {
         token: tokenStr,
-        uid: uidGen(),
+        uuid: UuidGen(),
       }
       return context
     },

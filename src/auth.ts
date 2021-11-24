@@ -1,6 +1,5 @@
 import { AuthChecker } from 'type-graphql'
 import { getConnection } from 'typeorm'
-import crypto from 'crypto'
 
 import {
   CustomContext,
@@ -8,41 +7,6 @@ import {
 } from './types'
 import { userAlive as sql_userAlive } from './script/sql/userAlive'
 import { userAliveByRole as sql_userAliveByRole } from './script/sql/userAliveByRole'
-
-export const uidGen = () => {
-  return crypto.randomUUID()
-}
-
-export const tokenGen = () => {
-  const value = `${new Date().valueOf()}${Math.random()}`
-  return crypto.createHash('sha1').update(value, 'utf8').digest('hex')
-}
-
-export const hashGen = (
-  login: string,
-  password: string,
-) => {
-  if (login && password) {
-    const value = login + password
-    return crypto.createHash('sha256').update(value, 'utf8').digest('hex')
-  }
-  return null
-}
-
-export const hashCheck = (
-  hash: string,
-  login: string,
-  password: string,
-) => {
-  if (hash && login && password) {
-    const hashNew = hashGen(
-      login,
-      password,
-    )
-    return hash === hashNew
-  }
-  return false
-}
 
 export const customAuthChecker: AuthChecker<CustomContext> = async (
   { root, args, context, info },

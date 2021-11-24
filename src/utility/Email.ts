@@ -1,4 +1,4 @@
-const Email = (
+export const Email = (
   val: string | number | null,
 ) => {
   if (val) {
@@ -10,4 +10,3 @@ const Email = (
   }
   return null
 }
-export default Email

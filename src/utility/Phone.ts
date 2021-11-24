@@ -1,4 +1,4 @@
-const Phone = (
+export const Phone = (
   val: string | number | null,
   format: number,
 ) => {
@@ -28,4 +28,3 @@ const Phone = (
   }
   return null
 }
-export default Phone

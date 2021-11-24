@@ -8,10 +8,11 @@ import {
 import { getConnection } from 'typeorm'
 
 import { USER_ROLE } from '../types'
-import E_Person from 'entity/E_Person'
-import Email from '../utility/Email'
-import Phone from '../utility/Phone'
-import Password from '../utility/Password'
+import E_Person from '../entity/E_Person'
+import { Email } from '../utility/Email'
+import { Phone } from '../utility/Phone'
+import { Password } from '../utility/Password'
+import { HashGen } from '../utility/Crypt'
 
 @Resolver()
 export default class Auth {
@@ -19,13 +20,14 @@ export default class Auth {
   @Authorized([
     USER_ROLE.guest,
   ])
-  @Mutation(() => String)
+  @Mutation(() => Boolean)
   async signUp(
     @Arg('roleId') roleId: number,
     @Arg('login') login: string,
     @Arg('password') password: string,
     @Arg('loginReserve', { nullable: true }) loginReserve?: string,
-  ): Promise<string> {
+  ): Promise<boolean> {
+    const dateCur = new Date()
     const loginChecked = Email(login) || Phone(login, 0)
     const loginReserveChecked = Email(loginReserve) || Phone(loginReserve, 0)
     if (!loginChecked) {
@@ -46,6 +48,10 @@ export default class Auth {
         { ...loginReserveOption },
       ]
     })
+    const hashNew = HashGen(
+      loginChecked,
+      password,
+    )
     if (samePerson) {
       if (samePerson.valid && !samePerson.deleteDate) {
         throw new Error('login already occupied')
@@ -54,16 +60,27 @@ export default class Auth {
         { id: samePerson.id },
         {
           role: { id: roleId },
-          updateDate: new Date(),
+          updateDate: dateCur,
           deleteDate: null,
           login: loginChecked,
-          reserve: loginReserveChecked,
-          hash: '',
+          reserve: loginReserveChecked || null,
+          hash: hashNew,
+          valid: true,
+        }
+      )
+    } else {
+      await getConnection().getRepository(E_Person).insert(
+        {
+          role: { id: roleId },
+          deleteDate: null,
+          login: loginChecked,
+          reserve: loginReserveChecked || null,
+          hash: hashNew,
           valid: true,
         }
       )
     }
-    return 'default ok'
+    return true
   }
 
   @Authorized([
