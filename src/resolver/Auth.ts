@@ -9,6 +9,7 @@ import { getConnection } from 'typeorm'
 
 import { USER_ROLE } from '../types'
 import E_Person from '../entity/E_Person'
+import E_Role from '../entity/E_Role'
 import { Email } from '../utility/Email'
 import { Phone } from '../utility/Phone'
 import { Password } from '../utility/Password'
@@ -34,10 +35,21 @@ export default class Auth {
       throw new Error('incorrect login')
     }
     if (loginReserve && !loginReserveChecked) {
-      throw new Error('incorrect reserve login')
+      throw new Error('incorrect loginReserve')
     }
     if (!Password(password)) {
-      throw new Error('password should be latin and longer 5 symbols')
+      throw new Error('password should be [latin noSpaces >5symbols]')
+    }
+    const roles = await getConnection().getRepository(E_Role).find({
+      where: {
+        deleteDate: null,
+      }
+    })
+    if (
+      !roles.length ||
+      !roles.find(role => role.id === roleId)
+    ) {
+      throw new Error('incorrect role id')
     }
     const loginReserveOption = loginReserveChecked ? {
       reserve: loginReserveChecked,
