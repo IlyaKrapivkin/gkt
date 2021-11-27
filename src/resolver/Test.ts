@@ -60,4 +60,18 @@ export default class Test {
     return 'default ok'
   }
 
+  @Authorized([
+    USER_ROLE.guest,
+  ])
+  @Query(() => String)
+  async t5_test() {
+    const regLat = /^[a-zA-Z0-9<>(){}!?.,:;+=~_"^*@#$%|-]{5,}$/g
+    const abc = ['12345','123456','1234567','12345678','123456789','123450']
+    abc.forEach(str=> {
+      console.log(str.length)
+      console.log(regLat.test(str))
+    })
+    return 'default ok'
+  }
+
 }
