@@ -47,7 +47,11 @@ export default class Auth {
     })
     if (
       !roles.length ||
-      !roles.find(role => role.id === roleId)
+      !roles.find(role => (
+          role.id === roleId &&
+          [USER_ROLE.user, USER_ROLE.admin].includes(role.name)
+        )
+      )
     ) {
       throw new Error('incorrect role id')
     }
