@@ -11,28 +11,28 @@ import { userAliveByRole as sql_userAliveByRole } from '../db/sql/userAliveByRol
 export const customAuthChecker: AuthChecker<CustomContext> = async (
   { root, args, context, info },
   roles: string[],
-) => {
+): Promise<boolean> => {
   try {
     // GUEST
     if (roles.includes(USER_ROLE.guest)) {
-      return !context.token
+      return !context.sessionUuid
     }
     // USER
     if (
-      context.token &&
+      context.sessionUuid &&
       roles.includes(USER_ROLE.user)
     ) {
       const sessionTable: {
         id: number,
       }[] = await getConnection().query(
         sql_userAlive,
-        [context.token],
+        [context.sessionUuid],
       )
       return !!sessionTable.length
     }
     // ADMIN
     if (
-      context.token &&
+      context.sessionUuid &&
       roles.includes(USER_ROLE.admin)
     ) {
       const sessionTable: {
@@ -40,7 +40,7 @@ export const customAuthChecker: AuthChecker<CustomContext> = async (
       }[] = await getConnection().query(
         sql_userAliveByRole,
         [
-          context.token,
+          context.sessionUuid,
           USER_ROLE.admin,
         ],
       )

@@ -11,6 +11,8 @@ import { CustomContext } from './types'
 import { customAuthChecker } from './utility/Auth'
 import { UuidGen } from './utility/Crypt'
 import { Lifecycle } from './utility/Lifecycle'
+import { ContextFormatter } from './utility/Context'
+import { ErrorFormatter } from './utility/Error'
 
 async function main() {
   // environment variables
@@ -31,34 +33,9 @@ async function main() {
   })
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }) => {
-      const tokenRaw = req?.headers?.token || null
-      const tokenStr = (
-        tokenRaw &&
-        typeof tokenRaw === 'string'
-      ) ? tokenRaw : null
-      const context: CustomContext = {
-        token: tokenStr,
-        uuid: UuidGen(),
-      }
-      return context
-    },
+    context: ContextFormatter,
     introspection: true,
-    formatError: (err) => {
-      console.error(err)
-      const errorReplaced: GraphQLError = {
-        message: err.message,
-        nodes: undefined,
-        source: undefined,
-        positions: undefined,
-        path: undefined,
-        originalError: undefined,
-        extensions: undefined,
-        locations: undefined,
-        name: undefined,
-      }
-      return errorReplaced
-    },
+    formatError: ErrorFormatter,
     formatResponse: (res) => (res),
     plugins: [
       Lifecycle,

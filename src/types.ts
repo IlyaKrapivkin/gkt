@@ -5,6 +5,6 @@ export const USER_ROLE = {
 }
 
 export interface CustomContext {
-  token: string | null
-  uuid: string
+  sessionUuid: string | null,
+  operationUuid: string,
 }
