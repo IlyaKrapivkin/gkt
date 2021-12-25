@@ -3,33 +3,14 @@ import 'reflect-metadata'
 import express from 'express'
 import { createConnection } from 'typeorm'
 import { ApolloServer } from 'apollo-server-express'
-import { GraphQLResponse } from 'apollo-server-types'
 import { buildSchema } from 'type-graphql'
 import { GraphQLError } from 'graphql'
 
-import { customAuthChecker } from './auth'
 import getOrmConfig from './config/ormconfig'
 import { CustomContext } from './types'
+import { customAuthChecker } from './utility/Auth'
 import { UuidGen } from './utility/Crypt'
-
-const actionLifePlugin = {
-  async requestDidStart(requestContext) {
-    return {
-      async didResolveOperation (context) {
-      },
-      async didEncounterErrors (context) {
-        console.log('🕷️')
-      },
-      async willSendResponse (context) {
-        const responseReplaced: GraphQLResponse = {
-          data: context.response.data || null,
-          errors: context.response.errors || [],
-        }
-        context.response = responseReplaced
-      }
-    }
-  },
-}
+import { Lifecycle } from './utility/Lifecycle'
 
 async function main() {
   // environment variables
@@ -80,7 +61,7 @@ async function main() {
     },
     formatResponse: (res) => (res),
     plugins: [
-      actionLifePlugin,
+      Lifecycle,
     ]
   })
   await  apolloServer.start()

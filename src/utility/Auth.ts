@@ -4,9 +4,9 @@ import { getConnection } from 'typeorm'
 import {
   CustomContext,
   USER_ROLE,
-} from './types'
-import { userAlive as sql_userAlive } from './db/sql/userAlive'
-import { userAliveByRole as sql_userAliveByRole } from './db/sql/userAliveByRole'
+} from '../types'
+import { userAlive as sql_userAlive } from '../db/sql/userAlive'
+import { userAliveByRole as sql_userAliveByRole } from '../db/sql/userAliveByRole'
 
 export const customAuthChecker: AuthChecker<CustomContext> = async (
   { root, args, context, info },
