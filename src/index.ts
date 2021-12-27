@@ -4,15 +4,13 @@ import express from 'express'
 import { createConnection } from 'typeorm'
 import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
-import { GraphQLError } from 'graphql'
 
 import getOrmConfig from './config/ormconfig'
-import { CustomContext } from './types'
 import { customAuthChecker } from './utility/Auth'
-import { UuidGen } from './utility/Crypt'
 import { Lifecycle } from './utility/Lifecycle'
 import { ContextFormatter } from './utility/Context'
 import { ErrorFormatter } from './utility/Error'
+import { ResponseFormatter } from './utility/Response'
 
 async function main() {
   // environment variables
@@ -36,7 +34,7 @@ async function main() {
     context: ContextFormatter,
     introspection: true,
     formatError: ErrorFormatter,
-    formatResponse: (res) => (res),
+    formatResponse: ResponseFormatter,
     plugins: [
       Lifecycle,
     ]

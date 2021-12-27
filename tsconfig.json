@@ -17,6 +17,7 @@
     "rootDir": "src",
     "outDir": "./dist",
     "types": ["node"],
+    "typeRoots": ["../node_modules/@types"]
   },
   "exclude": ["node_modules","scripts"]
 }

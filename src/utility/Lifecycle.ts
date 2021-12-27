@@ -1,19 +1,16 @@
-import { GraphQLResponse } from 'apollo-server-types'
+import { GraphQLResponse, GraphQLRequestContext } from 'apollo-server-types'
+import { PluginDefinition } from 'apollo-server-core'
 
-export const Lifecycle = {
-  async requestDidStart(requestContext) {
+export const Lifecycle: PluginDefinition = {
+  async requestDidStart(requestContext: GraphQLRequestContext) {
     return {
-      async didResolveOperation (context) {
+      async didResolveOperation (requestContext: GraphQLRequestContext) {
       },
-      async didEncounterErrors (context) {
-        console.log('🕷️')
+      async didEncounterErrors (requestContext: GraphQLRequestContext) {
+        console.log('🐞')
       },
-      async willSendResponse (context) {
-        const responseReplaced: GraphQLResponse = {
-          data: context.response.data || null,
-          errors: context.response.errors || [],
-        }
-        context.response = responseReplaced
+      async willSendResponse (requestContext: GraphQLRequestContext) {
+        const curEndDate = new Date()
       }
     }
   }

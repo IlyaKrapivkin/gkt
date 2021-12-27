@@ -1,25 +1,22 @@
 import express from 'express'
-import { ContextFunction } from 'apollo-server-core'
 import { ExpressContext } from 'apollo-server-express'
 
+import { CustomContext } from '../types'
 import { UuidGen } from './Crypt'
 
-export interface CustomContext {
-  sessionUuid: string | null,
-  operationUuid: string,
-}
-
-export const ContextFormatter: ContextFunction<ExpressContext, object> = (
-  { req, res },
-) => {
-  const tokenRaw = req?.headers?.token || null
+export const ContextFormatter = (
+  expressContext: ExpressContext,
+): CustomContext => {
+  const curDate = new Date
+  const tokenRaw = expressContext?.req?.headers?.token || null
   const tokenStr = (
     tokenRaw &&
     typeof tokenRaw === 'string'
   ) ? tokenRaw : null
-  const context: CustomContext = {
+  const contextNew: CustomContext = {
     sessionUuid: tokenStr,
     operationUuid: UuidGen(),
+    operationStart: curDate,
   }
-  return context
+  return contextNew
 }
