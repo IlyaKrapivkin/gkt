@@ -20,7 +20,9 @@ export default class Test {
     return 'default ok'
   }
 
-  @Authorized()
+  @Authorized([
+    USER_ROLE.guest,
+  ])
   @Query(() => String)
   async t2_throwError() {
     throw new Error('throw error')

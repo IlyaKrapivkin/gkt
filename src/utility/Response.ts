@@ -5,8 +5,8 @@ export const ResponseFormatter = (
   requestContext: GraphQLRequestContext,
 ): GraphQLResponse => {
   const responseNew: GraphQLResponse = {
-    data: requestContext?.response?.data || null,
-    errors: requestContext?.response?.errors || [],
+    data: (response.data === undefined) ? null : response.data,
+    errors: response?.errors || [],
   }
   return responseNew
 }

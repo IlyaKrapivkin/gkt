@@ -23,7 +23,7 @@ import { Password } from '../utility/Password'
 import { HashGen, TokenGen } from '../utility/Crypt'
 
 @Resolver()
-export default class Auth {
+export default class Session {
 
   @Authorized([
     USER_ROLE.guest,

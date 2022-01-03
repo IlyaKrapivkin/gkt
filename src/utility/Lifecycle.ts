@@ -11,6 +11,12 @@ export const Lifecycle: PluginDefinition = {
       },
       async willSendResponse (requestContext: GraphQLRequestContext) {
         const curEndDate = new Date()
+        if (
+          requestContext.response &&
+          requestContext.response.data === undefined
+        ) {
+          requestContext.response.data = null
+        }
       }
     }
   }
