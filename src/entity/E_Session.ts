@@ -14,7 +14,7 @@ import E_Person from './E_Person'
   schema: 'public',
   name: 'session',
 })
-export default class E_Role extends E_Base {
+export default class E_Session extends E_Base {
   @Column({
     type: 'integer',
     name: 'person_id',
