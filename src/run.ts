@@ -1,16 +1,16 @@
-import dotenv from 'dotenv'
 import 'reflect-metadata'
+import dotenv from 'dotenv'
 import express from 'express'
 import { createConnection } from 'typeorm'
 import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
 
-import getOrmConfig from './config/ormconfig'
-import { customAuthChecker } from './utility/Auth'
-import { Lifecycle } from './utility/Lifecycle'
-import { ContextFormatter } from './utility/Context'
-import { ErrorFormatter } from './utility/Error'
-import { ResponseFormatter } from './utility/Response'
+import { getOrmConfig } from './database/orm/ormconfig'
+import { customAuthChecker } from './service/Auth'
+import { Lifecycle } from './service/Lifecycle'
+import { ContextFormatter } from './service/Context'
+import { ErrorFormatter } from './service/Error'
+import { ResponseFormatter } from './service/Response'
 
 async function main() {
   // environment variables
@@ -25,7 +25,7 @@ async function main() {
   // express and graphql initialization
   const app = express()
   const schema = await buildSchema({
-    resolvers: [__dirname + '/resolver/**/*.{ts,js}'],
+    resolvers: [__dirname + '/client/resolver/**/*.{ts,js}'],
     authChecker: customAuthChecker,
     authMode: 'error',
   })

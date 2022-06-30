@@ -7,13 +7,16 @@ import {
 } from 'type-graphql'
 import { getConnection } from 'typeorm'
 
-import { USER_ROLE } from '../types'
-import E_Person from '../entity/E_Person'
-import E_Role from '../entity/E_Role'
-import { Email } from '../utility/Email'
-import { Phone } from '../utility/Phone'
-import { Password } from '../utility/Password'
-import { HashGen } from '../utility/Crypt'
+import { USER_ROLE } from '../../type/storage'
+import { CustomContext } from '../../type/abstract'
+
+import E_Person from '../../database/entity/E_Person'
+import E_Role from '../../database/entity/E_Role'
+
+import Email from '../../tool/Email'
+import Phone from '../../tool/Phone'
+import Password from '../../tool/Pass'
+import { HashGen } from '../../tool/Crypt'
 
 @Resolver()
 export default class User {

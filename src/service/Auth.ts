@@ -1,12 +1,11 @@
 import { AuthChecker } from 'type-graphql'
 import { getConnection } from 'typeorm'
 
-import {
-  CustomContext,
-  USER_ROLE,
-} from '../types'
-import { userAlive as sql_userAlive } from '../db/sql/userAlive'
-import { userAliveByRole as sql_userAliveByRole } from '../db/sql/userAliveByRole'
+import { USER_ROLE } from '../type/storage'
+import { CustomContext } from '../type/abstract'
+
+import { userAlive as sql_userAlive } from '../database/script/sql/userAlive'
+import { userAliveByRole as sql_userAliveByRole } from '../database/script/sql/userAliveByRole'
 
 export const customAuthChecker: AuthChecker<CustomContext> = async (
   { root, args, context, info },

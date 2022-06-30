@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { ConnectionOptions } from 'typeorm'
 
-export default function getOrmConfig(): ConnectionOptions {
+export const getOrmConfig = (): ConnectionOptions => {
   dotenv.config()
   const ormconfig: ConnectionOptions = {
     name: 'default',
@@ -16,13 +16,13 @@ export default function getOrmConfig(): ConnectionOptions {
     ssl: {
       rejectUnauthorized: false
     },
-    entities: ['src/entity/**/*.ts'],
-    migrations: ['src/migration/**/*.ts'],
-    subscribers: ['src/subscriber/**/*.ts'],
+    entities: ['src/database/entity/**/*.ts'],
+    migrations: ['src/database/migration/**/*.ts'],
+    subscribers: ['src/database/subscriber/**/*.ts'],
     cli: {
-      entitiesDir: 'src/entity',
-      migrationsDir: 'src/migration',
-      subscribersDir: 'src/subscriber'
+      entitiesDir: 'src/database/entity',
+      migrationsDir: 'src/database/migration',
+      subscribersDir: 'src/database/subscriber'
     }
   }
   return ormconfig

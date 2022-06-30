@@ -28,6 +28,6 @@
     "yarn": "1.22.17"
   },
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/run.ts"
   }
 }

@@ -4,7 +4,8 @@ import {
   Mutation,
   Authorized,
 } from 'type-graphql'
-import { USER_ROLE } from '../types'
+
+import { USER_ROLE } from '../../type/storage'
 
 @Resolver()
 export default class Test {

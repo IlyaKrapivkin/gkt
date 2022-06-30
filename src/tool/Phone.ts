@@ -1,7 +1,7 @@
-export const Phone = (
+export default function (
   val: string | number | null,
   format: number,
-): string => {
+): string {
   if (val) {
     const regIsPhoneMobRus = /^(\+7|7|8)?[\s\-]?\(?[9][\d]{2}\)?[\s\-]?[\d]{3}[\s\-]?[\d]{2}[\s\-]?[\d]{2}$/
     const str = val.toString().toLowerCase().replace(/\s/g, '')

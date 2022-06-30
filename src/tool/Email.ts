@@ -1,6 +1,6 @@
-export const Email = (
+export default function (
   val: string | number | null,
-): string => {
+): string {
   if (val) {
     const regIsEmail = /(^[\w\+\-\*\&]+)((\.[\w\+\-\*\&]+)*)(@\w+)(([\.-]?\w+)*)((\.\w{2,32})+$)/
     const str = val.toString().toLowerCase().trim()
